@@ -1,0 +1,7 @@
+{
+  "name": "Fitness Tracker PWA",
+  "short_name": "Fitness Tracker PWA",
+  "description": "Fitness tracking",
+  "start_url": "/",
+  "display": "standalone"
+}
