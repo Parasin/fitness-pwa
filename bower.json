@@ -3,7 +3,15 @@
   "description": "Fitness Tracker PWA",
   "main": "index.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "highcharts-chart": "^2.0.1",
+    "iron-ajax": "PolymerElements/iron-ajax#^2.1.0",
+    "paper-radio-group": "PolymerElements/paper-radio-group#^2.1.0",
+    "paper-radio-button": "PolymerElements/paper-radio-button#^2.0.0",
+    "paper-input": "PolymerElements/paper-input#^2.1.1",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.3",
+    "paper-button": "PolymerElements/paper-button#^2.0.0",
+    "vaadin-date-picker": "vaadin/vaadin-date-picker#^2.0.7"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",

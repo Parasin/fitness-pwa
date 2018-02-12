@@ -1,13 +1,60 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
 
 <dom-module id="fitness-app">
+  <script src="../../bower_components/highcharts/highcharts.js"></script>
+  <script src="../../bower_components/jquery/dist/jquery.js"></script>
+  <script src="../../bower_components/highcharts/modules/exporting.js"></script>
+
   <template>
-    <style>
+    <style include="iron-flex iron-flex-alignment">
       :host {
-        display: block;
+        display : block;
+      }
+
+      #input-group {
+        margin : 2vh;
+      }
+
+      paper-input {
+        max-width : 300px;
       }
     </style>
-    <h2>Hello, [[prop1]]!</h2>
+
+    <iron-ajax id="dataIA"
+               auto
+               method="GET"
+               url="{{ dataURL }}"
+               handle-as="json"
+               on-error="_responseFail"
+               last-response="{{ chartData }}">
+    </iron-ajax>
+
+    <div id="input-group">
+      <div class="layout vertical center-justified">
+        <div class="flex self-center">
+          <paper-radio-group selected="{{ chartType }}">
+            <paper-radio-button name="area">Area</paper-radio-button>
+            <paper-radio-button name="spline">Spline</paper-radio-button>
+          </paper-radio-group>
+        </div>
+        <div class="flex self-center">
+          <!--<paper-input id="xVal" value="{{ xVal }}" placeholder="x-axis value"></paper-input>-->
+          <vaadin-date-picker value="{{ xVal }}" label="Pick a date"></vaadin-date-picker>
+          <paper-input value="{{ yVal }}" placeholder="y-axis value" type="number"></paper-input>
+          <paper-button raised on-click="_addPoint">Add point</paper-button>
+        </div>
+      </div>
+    </div>
+
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto;"></div>
+
   </template>
 
   <script>
@@ -16,17 +63,200 @@
      * @polymer
      */
     class FitnessApp extends Polymer.Element {
-      static get is() { return 'fitness-app'; }
-      static get properties() {
+      static get is () {
+        return 'fitness-app';
+      }
+
+      static get properties () {
         return {
-          prop1: {
-            type: String,
-            value: 'fitness-app'
+          prop1 : {
+            type  : String,
+            value : 'fitness-app'
+          },
+
+          chartData : {
+            type     : Object,
+            observer : 'generateChartOptions',
+            value    : function () {
+              return [];
+            }
+          },
+
+          chartType : {
+            type     : String,
+            observer : '_updateChartType',
+            value    : 'area'
+          },
+
+          defaultOptions : {
+            type  : Object,
+            value : {
+              chart       : {
+                zoomType : 'xy',
+                area     : true,
+                spline   : false
+              },
+              title       : {
+                text : 'USD to EUR exchange rate over time'
+              },
+              subtitle    : {
+                text : document.ontouchstart === undefined ?
+                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+              },
+              xAxis       : {
+                type : 'datetime'
+              },
+              yAxis       : {
+                title : {
+                  text : 'Exchange rate'
+                }
+              },
+              legend      : {
+                enabled : true
+              },
+              plotOptions : {
+                area : {
+                  fillColor : {
+                    linearGradient : {
+                      x1 : 0,
+                      y1 : 0,
+                      x2 : 0,
+                      y2 : 1
+                    },
+                    stops          : [
+                      [ 0, Highcharts.getOptions().colors[ 0 ] ],
+                      [ 1, Highcharts.Color( Highcharts.getOptions().colors[ 0 ] ).setOpacity( 0 ).get( 'rgba' ) ]
+                    ]
+                  },
+                  marker    : {
+                    radius : 2
+                  },
+                  lineWidth : 1,
+                  states    : {
+                    hover : {
+                      lineWidth : 1
+                    }
+                  },
+                  threshold : null
+                }
+              },
+
+              series : [ {
+                type : 'area',
+                name : 'USD to EUR',
+                data : this.chartData
+              } ]
+            }
+          },
+
+          dataURL : {
+            type  : String,
+            value : 'https://cdn.rawgit.com/highcharts/highcharts/v6.0.5/samples/data/usdeur.json'
+          },
+
+          options : {
+            type  : Object,
+            value : function () {
+              return {};
+            }
           }
         };
       }
+
+      ready () {
+        super.ready();
+        this.chart = undefined;
+        this.xVal  = undefined;
+        this.yVal  = undefined;
+      }
+
+      generateChartOptions () {
+        this.defaultOptions.series[ 0 ].data = this.chartData;
+
+        this.options = Highcharts.merge( this.defaultOptions, this.options );
+        this.generateChart();
+      }
+
+      generateChart () {
+        this.chart = Highcharts.chart( this.$.container, this.options );
+      }
+
+      _addPoint () {
+        this.chart.series[ 0 ].addPoint( [ new Date( this.xVal ).getTime() , parseFloat( this.yVal ) ], true );
+      }
+
+      _updateChartType ( newVal, oldVal ) {
+        this.set( 'options.chart.type', newVal );
+
+        switch ( this.options.chart.type ) {
+          case 'area':
+            this.set( 'options.plotOptions', {
+              area : {
+                fillColor : {
+                  linearGradient : {
+                    x1 : 0,
+                    y1 : 0,
+                    x2 : 0,
+                    y2 : 1
+                  },
+                  stops          : [
+                    [ 0, Highcharts.getOptions().colors[ 0 ] ],
+                    [ 1, Highcharts.Color( Highcharts.getOptions().colors[ 0 ] ).setOpacity( 0 ).get( 'rgba' ) ]
+                  ]
+                },
+                marker    : {
+                  radius : 2
+                },
+                lineWidth : 1,
+                states    : {
+                  hover : {
+                    lineWidth : 1
+                  }
+                },
+                threshold : null
+              }
+            } );
+
+            for ( let subSeries of this.options.series ) {
+              subSeries.type = 'area';
+            }
+
+            this.notifyPath( 'options.series' );
+            break;
+          case 'spline':
+            this.set( 'options.plotOptions', {
+              spline : {
+                dataLabels : {
+                  enabled : true
+                }
+              },
+              marker : {
+                enabled : true
+              }
+            } );
+
+            for ( let subSeries of this.options.series ) {
+              subSeries.type = 'spline';
+            }
+
+            this.notifyPath( 'options.series' );
+            break;
+          default:
+            break;
+        }
+
+        this.generateChart();
+      }
+
+      _responseSuccess ( result ) {
+        console.log( result );
+      }
+
+      _responseFail ( result ) {
+        console.error( result );
+      }
     }
 
-    window.customElements.define(FitnessApp.is, FitnessApp);
+    window.customElements.define( FitnessApp.is, FitnessApp );
   </script>
 </dom-module>
