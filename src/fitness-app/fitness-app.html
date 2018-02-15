@@ -15,9 +15,17 @@
   <script src="../../bower_components/highcharts/modules/exporting.js"></script>
 
   <template>
-    <style include="iron-flex iron-flex-alignment">
+    <style include="iron-flex iron-flex-alignment app-theme">
       :host {
-        display : block;
+        display: block;
+      }
+
+      .dark {
+        @apply --app-dark-theme;
+      }
+
+      .light {
+        @apply --app-light-theme;
       }
 
       #input-group {
@@ -33,17 +41,9 @@
         margin-top : 2em;
       }
 
-      .dark {
-        /*background-color : #575657;*/
-        background-color : white;
-      }
-
-      .light {
-        background-color : white;
-      }
-
       #parent {
-        transition : background-color 0.5s;
+        transition : background-color 0.3s,  color 0.3s;
+        transition-timing-function: ease-out;
       }
 
     </style>
@@ -249,7 +249,7 @@
                 }
               },
               themeB = {
-                colors : [ '#070711', '#969896' ],
+                colors      : [ '#070711', '#969896' ],
                 plotOptions : {
                   area : {
                     fillColor : {
@@ -260,7 +260,7 @@
                         y2 : 1
                       },
                       stops          : [
-                        [ 0,  '#070711' ],
+                        [ 0, '#070711' ],
                         [ 1, Highcharts.Color( '#070711' ).setOpacity( 0 ).get( 'rgba' ) ]
                       ]
                     }

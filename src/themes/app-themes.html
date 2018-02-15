@@ -1,0 +1,46 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="app-theme">
+  <template>
+    <style is="custom-style">
+      :host {
+        --app-dark-theme: {
+          background-color: #474647;
+          color: white;
+          --paper-toggle-button-unchecked-bar-color: white;
+          --paper-toggle-button-checked-bar-color: #9c9c9c;
+          --paper-toggle-button-unchecked-button-color: #000000;
+          --paper-toggle-button-checked-button-color: white;
+          --paper-toggle-button-label-color: white;
+        };
+
+        --app-light-theme: {
+          background-color: white;
+          color: #474647;
+        };
+      }
+    </style>
+  </template>
+
+  <script>
+    class AppTheme extends Polymer.Element {
+      static get is () {
+        return 'app-theme';
+      }
+
+      static get properties () {
+        return {};
+      }
+
+      static get observers () {
+        return [];
+      }
+
+      ready () {
+        super.ready();
+      }
+    }
+
+    window.customElements.define( AppTheme.is, AppTheme );
+  </script>
+</dom-module>
