@@ -1,22 +1,47 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 
 <dom-module id="app-theme">
   <template>
     <style is="custom-style">
       :host {
         --app-dark-theme: {
-          background-color: #474647;
-          color: white;
-          --paper-toggle-button-unchecked-bar-color: white;
-          --paper-toggle-button-checked-bar-color: #9c9c9c;
-          --paper-toggle-button-unchecked-button-color: #000000;
-          --paper-toggle-button-checked-button-color: white;
-          --paper-toggle-button-label-color: white;
+          background-color                             : var(--paper-grey-700);
+          --paper-toggle-button-unchecked-bar-color    : white;
+          --paper-toggle-button-checked-bar-color      : var(--paper-grey-500);
+          --paper-toggle-button-checked-button-color   : white;
+          --paper-toggle-button-label-color            : white;
+          --paper-radio-button-unchecked-color         : white;
+          --paper-radio-button-checked-color           : white;
+          --paper-radio-button-checked-ink-color       : white;
+          --paper-radio-button-label-color             : white;
+          --paper-input-container-input-color          : white;
+          --paper-input-container-focus-color          : white;
+          --paper-input-container-label                : white;
+          --paper-input-container-underline            : white;
+          --paper-input-container-color: white;
         };
-
         --app-light-theme: {
-          background-color: white;
-          color: #474647;
+          background-color : white;
+          color            : var(--paper-grey-700);
+        };
+        --paper-button-dark-theme: {
+          color            : white;
+          background-color : var(--paper-green-400);
+        };
+        --paper-button-light-theme: {
+          color            : white;
+          background-color : var(--paper-blue-400);
+        };
+        --paper-card-dark-theme: {
+          --paper-card-background-color : var(--paper-grey-600);
+        };
+        --paper-card-light-theme: {
+          --paper-card-background-color : white;
+        };
+        --vaadin-date-picker-dark-theme: {
+        };
+        --vaadin-date-picker-light-theme: {
         };
       }
     </style>

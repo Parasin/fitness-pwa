@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
@@ -17,7 +18,8 @@
   <template>
     <style include="iron-flex iron-flex-alignment app-theme">
       :host {
-        display: block;
+        display : block;
+        margin  : 0;
       }
 
       .dark {
@@ -26,6 +28,40 @@
 
       .light {
         @apply --app-light-theme;
+      }
+
+      .margin-horizontal {
+        margin-right: 14px;
+      }
+
+      .margin-vertical{
+        margin-bottom: 14px;
+      }
+
+      .paper-button-dark-theme {
+        @apply --paper-button-dark-theme;
+      }
+
+      .paper-button-light-theme {
+        @apply --paper-button-light-theme;
+      }
+
+      .paper-card-dark-theme {
+        @apply --paper-card-dark-theme;
+      }
+
+      .paper-card-light-theme {
+        @apply --paper-card-light-theme;
+      }
+
+      paper-card {
+        @apply --paper-card-light-theme;
+      }
+
+      paper-button {
+        margin : 2em 0;
+        width: 100%;
+        @apply --paper-button-light-theme;
       }
 
       #input-group {
@@ -37,16 +73,25 @@
       }
 
       paper-card {
-        width      : 100%;
-        margin-top : 2em;
+        width  : 100%;
+        margin : 2em 0;
       }
 
-      #parent {
-        transition : background-color 0.3s,  color 0.3s;
-        transition-timing-function: ease-out;
+      #parent, paper-button, paper-card {
+        transition                 : background-color 0.2s, color 0.2s;
+        transition-timing-function : ease-out;
       }
 
+      /*.vaadin-date-picker-dark-theme {
+        @apply --vaadin-date-picker-dark-theme;
+      }
+
+      .vaadin-date-picker-light-theme {
+        @apply --vaadin-date-picker-light-theme;
+      }*/
     </style>
+
+    <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>
 
     <iron-ajax id="dataIA"
                auto
@@ -56,37 +101,44 @@
                on-error="_responseFail"
                last-response="{{ chartData }}">
     </iron-ajax>
-    <!--<div id="parent" class$="[[ _computeTheme(theme) ]]">-->
+
     <div id="parent" class$="[[ _computeTheme(theme) ]]">
       <div id="input-group">
-        <div class="layout vertical center-justified">
-          <div class="flex self-center">
-            <paper-radio-group selected="{{ chartType }}">
-              <paper-radio-button name="area">Area</paper-radio-button>
-              <paper-radio-button name="spline">Spline</paper-radio-button>
-            </paper-radio-group>
-          </div>
 
-          <div class="flex self-center">
-            <!--<paper-input id="xVal" value="{{ xVal }}" placeholder="x-axis value"></paper-input>-->
-            <vaadin-date-picker value="{{ xVal }}" label="Pick a date"></vaadin-date-picker>
-            <paper-input value="{{ yVal }}" placeholder="y-axis value" type="number"></paper-input>
-            <paper-button raised on-click="_addPoint">Add point</paper-button>
-          </div>
+        <div id="chartCard" class="flex stretch">
+          <paper-toggle-button checked="{{ theme }}">Dark/Light theme: {{ theme }}</paper-toggle-button>
 
-          <div id="chartCard" class="flex stretch">
-            <paper-toggle-button checked="{{ theme }}">Dark/Light theme: {{ theme }}</paper-toggle-button>
-            <paper-card elevation="1"
-                        preload-image
-                        fade-image>
-              <div class="card-content">
-                <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto;"></div>
+          <paper-card class$="paper-card-[[ _computeTheme(theme) ]]-theme"
+                      elevation="1"
+                      preload-image
+                      fade-image>
+            <div class="card-content">
+              <div class$="layout [[ _computeOrientation(smallScreen) ]] center-justified">
+                <div class="layout vertical stretch">
+                  <div class$="flex margin-[[ _computeOrientation(smallScreen) ]]">
+                    <div class="flex self-start">
+                      <paper-radio-group selected="{{ chartType }}">
+                        <paper-radio-button name="area" style="padding-left: 0;">Area</paper-radio-button>
+                        <paper-radio-button name="spline">Spline</paper-radio-button>
+                      </paper-radio-group>
+                    </div>
+                    <vaadin-date-picker value="{{ xVal }}" label="Pick a date" style="width: 100%;"></vaadin-date-picker>
+                    <paper-input value="{{ yVal }}" placeholder="y-axis value" type="number" style="width: 100%; max-width: 100%"></paper-input>
+                    <paper-button raised on-click="_addPoint" class$="paper-button-[[ _computeTheme(theme) ]]-theme">
+                      Add point
+                    </paper-button>
+                  </div>
+                </div>
+
+                <div class="flex" id="container" style="min-width: 310px; height: 400px; margin: 0 auto;"></div>
               </div>
-            </paper-card>
-          </div>
+            </div>
+          </paper-card>
         </div>
+
       </div>
     </div>
+
   </template>
 
   <script>
@@ -196,6 +248,11 @@
           theme : {
             type  : String,
             value : false
+          },
+
+          smallScreen: {
+            type: Boolean,
+            observer: 'generateChart'
           }
         };
       }
@@ -226,6 +283,9 @@
         this.chart.series[ 0 ].addPoint( [ new Date( this.xVal ).getTime(), parseFloat( this.yVal ) ], true );
       }
 
+      _computeOrientation() {
+        return this.smallScreen ? 'vertical' : 'horizontal';
+      }
 
       _computeTheme () {
         if ( this.chart ) {
