@@ -18,6 +18,7 @@
   <template>
     <style include="iron-flex iron-flex-alignment app-theme">
       :host {
+        font-family: edsfont, 'Roboto', sans-serif;
         display : block;
         margin  : 0;
       }
@@ -81,14 +82,6 @@
         transition                 : background-color 0.2s, color 0.2s;
         transition-timing-function : ease-out;
       }
-
-      /*.vaadin-date-picker-dark-theme {
-        @apply --vaadin-date-picker-dark-theme;
-      }
-
-      .vaadin-date-picker-light-theme {
-        @apply --vaadin-date-picker-light-theme;
-      }*/
     </style>
 
     <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>
@@ -106,7 +99,7 @@
       <div id="input-group">
 
         <div id="chartCard" class="flex stretch">
-          <paper-toggle-button checked="{{ theme }}">Dark/Light theme: {{ theme }}</paper-toggle-button>
+          <paper-toggle-button checked="{{ theme }}" style="padding-top: 2em;">Dark/Light theme: {{ theme }}</paper-toggle-button>
 
           <paper-card class$="paper-card-[[ _computeTheme(theme) ]]-theme"
                       elevation="1"
@@ -122,8 +115,9 @@
                         <paper-radio-button name="spline">Spline</paper-radio-button>
                       </paper-radio-group>
                     </div>
-                    <vaadin-date-picker value="{{ xVal }}" label="Pick a date" style="width: 100%;"></vaadin-date-picker>
-                    <paper-input value="{{ yVal }}" placeholder="y-axis value" type="number" style="width: 100%; max-width: 100%"></paper-input>
+                    <vaadin-date-picker value="{{ xVal }}" placeholder="Pick a date" style="width: 100%; margin-top: 14px" class$="vaadin-date-picker-[[ _computeTheme(theme) ]]-theme"></vaadin-date-picker>
+                    <!--<app-datepicker date="{{ xVal }}" label="Pick a date" style="width: 100%;" class$="vaadin-date-picker-[[ _computeTheme(theme) ]]-theme"></app-datepicker>-->
+                    <paper-input value="{{ yVal }}" placeholder="y-axis value" type="number" style="width: 100%; max-width: 100%;"></paper-input>
                     <paper-button raised on-click="_addPoint" class$="paper-button-[[ _computeTheme(theme) ]]-theme">
                       Add point
                     </paper-button>
