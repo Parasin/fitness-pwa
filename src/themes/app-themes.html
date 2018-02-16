@@ -3,23 +3,23 @@
 
 <dom-module id="app-theme">
   <template>
-    <style is="custom-style">
+    <style is="custom-style" inlcude="e-font">
       :host {
         --app-dark-theme: {
-          background-color                             : #181818;
-          --paper-toggle-button-unchecked-bar-color    : white;
-          --paper-toggle-button-checked-bar-color      : var(--paper-grey-500);
-          --paper-toggle-button-checked-button-color   : white;
-          --paper-toggle-button-label-color            : #F2F2F2;
-          --paper-radio-button-unchecked-color         : white;
-          --paper-radio-button-checked-color           : white;
-          --paper-radio-button-checked-ink-color       : white;
-          --paper-radio-button-label-color             : #F2F2F2;
-          --paper-input-container-input-color          : white;
-          --paper-input-container-focus-color          : white;
-          --paper-input-container-label                : #F2F2F2;
-          --paper-input-container-underline            : white;
-          --paper-input-container-color: white;
+          background-color                           : #181818;
+          --paper-toggle-button-unchecked-bar-color  : white;
+          --paper-toggle-button-checked-bar-color    : var(--paper-grey-500);
+          --paper-toggle-button-checked-button-color : white;
+          --paper-toggle-button-label-color          : #F2F2F2;
+          --paper-radio-button-unchecked-color       : white;
+          --paper-radio-button-checked-color         : white;
+          --paper-radio-button-checked-ink-color     : white;
+          --paper-radio-button-label-color           : #F2F2F2;
+          --paper-input-container-input-color        : white;
+          --paper-input-container-focus-color        : white;
+          --paper-input-container-label              : #F2F2F2;
+          --paper-input-container-underline          : white;
+          --paper-input-container-color              : white;
         };
         --app-light-theme: {
           background-color : #E0E0E0;
@@ -38,6 +38,12 @@
         };
         --paper-card-light-theme: {
           --paper-card-background-color : #F2F2F2;
+        };
+        --text-dark-theme: {
+          color : #F2F2F2;
+        };
+        --text-light-theme: {
+          color : #4E4E4E;
         };
       }
     </style>

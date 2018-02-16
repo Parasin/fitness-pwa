@@ -10,6 +10,7 @@
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
 
+
 <dom-module id="fitness-app">
   <script src="../../bower_components/highcharts/highcharts.js"></script>
   <script src="../../bower_components/jquery/dist/jquery.js"></script>
@@ -18,13 +19,17 @@
   <template>
     <style include="iron-flex iron-flex-alignment app-theme">
       :host {
-        font-family: edsfont, 'Roboto', sans-serif;
-        display : block;
-        margin  : 0;
+        font-family : Hilda-Light !important;
+        display     : block;
+        margin      : 0;
       }
 
       .dark {
         @apply --app-dark-theme;
+      }
+
+      #input-group {
+        margin : 2vh;
       }
 
       .light {
@@ -32,11 +37,17 @@
       }
 
       .margin-horizontal {
-        margin-right: 14px;
+        margin-right : 14px;
       }
 
-      .margin-vertical{
-        margin-bottom: 14px;
+      .margin-vertical {
+        margin-bottom : 14px;
+      }
+
+      paper-button {
+        margin : 2em 0;
+        width  : 100%;
+        @apply --paper-button-light-theme;
       }
 
       .paper-button-dark-theme {
@@ -47,6 +58,12 @@
         @apply --paper-button-light-theme;
       }
 
+      paper-card {
+        width  : 100%;
+        margin : 2em 0;
+        @apply --paper-card-light-theme;
+      }
+
       .paper-card-dark-theme {
         @apply --paper-card-dark-theme;
       }
@@ -55,32 +72,21 @@
         @apply --paper-card-light-theme;
       }
 
-      paper-card {
-        @apply --paper-card-light-theme;
-      }
-
-      paper-button {
-        margin : 2em 0;
-        width: 100%;
-        @apply --paper-button-light-theme;
-      }
-
-      #input-group {
-        margin : 2vh;
-      }
-
       paper-input {
         max-width : 300px;
-      }
-
-      paper-card {
-        width  : 100%;
-        margin : 2em 0;
       }
 
       #parent, paper-button, paper-card {
         transition                 : background-color 0.2s, color 0.2s;
         transition-timing-function : ease-out;
+      }
+
+      .text-dark-theme {
+        @apply --text-dark-theme;
+      }
+
+      .text-light-theme {
+        @apply --text-light-theme;
       }
     </style>
 
@@ -99,7 +105,8 @@
       <div id="input-group">
 
         <div id="chartCard" class="flex stretch">
-          <paper-toggle-button checked="{{ theme }}" style="padding-top: 2em;">Dark/Light theme: {{ theme }}</paper-toggle-button>
+          <paper-toggle-button checked="{{ theme }}" style="padding-top: 2em;">Dark/Light theme: {{ theme }}
+          </paper-toggle-button>
 
           <paper-card class$="paper-card-[[ _computeTheme(theme) ]]-theme"
                       elevation="1"
@@ -115,9 +122,15 @@
                         <paper-radio-button name="spline">Spline</paper-radio-button>
                       </paper-radio-group>
                     </div>
-                    <vaadin-date-picker value="{{ xVal }}" placeholder="Pick a date" style="width: 100%; margin-top: 14px" class$="vaadin-date-picker-[[ _computeTheme(theme) ]]-theme"></vaadin-date-picker>
+                    <vaadin-date-picker value="{{ xVal }}"
+                                        placeholder="Pick a date"
+                                        style="width: 100%; margin-top: 14px"
+                                        class$="vaadin-date-picker-[[ _computeTheme(theme) ]]-theme"></vaadin-date-picker>
                     <!--<app-datepicker date="{{ xVal }}" label="Pick a date" style="width: 100%;" class$="vaadin-date-picker-[[ _computeTheme(theme) ]]-theme"></app-datepicker>-->
-                    <paper-input value="{{ yVal }}" placeholder="y-axis value" type="number" style="width: 100%; max-width: 100%;"></paper-input>
+                    <paper-input value="{{ yVal }}"
+                                 placeholder="y-axis value"
+                                 type="number"
+                                 style="width: 100%; max-width: 100%;"></paper-input>
                     <paper-button raised on-click="_addPoint" class$="paper-button-[[ _computeTheme(theme) ]]-theme">
                       Add point
                     </paper-button>
@@ -125,6 +138,18 @@
                 </div>
 
                 <div class="flex" id="container" style="min-width: 310px; height: 400px; margin: 0 auto;"></div>
+
+              </div>
+              <div class="flex">
+                <p class$="text-[[ _computeTheme(theme) ]]-theme">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                  et dolore magna aliqua. Diam maecenas sed enim ut sem viverra aliquet eget sit. Amet nisl purus in
+                  mollis nunc sed id semper risus. Porttitor leo a diam sollicitudin. Vitae turpis massa sed elementum
+                  tempus egestas. Arcu vitae elementum curabitur vitae nunc sed. A diam maecenas sed enim. Ornare lectus
+                  sit amet est placerat. Enim praesent elementum facilisis leo vel fringilla est ullamcorper. Neque
+                  laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt. Aliquet enim tortor at
+                  auctor. Mi bibendum neque egestas congue quisque egestas diam in. Diam donec adipiscing tristique
+                  risus nec. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus. Nec feugiat nisl
+                  pretium fusce id velit ut.</p>
               </div>
             </div>
           </paper-card>
@@ -244,9 +269,9 @@
             value : false
           },
 
-          smallScreen: {
-            type: Boolean,
-            observer: 'generateChart'
+          smallScreen : {
+            type     : Boolean,
+            observer : 'generateChart'
           }
         };
       }
@@ -277,7 +302,7 @@
         this.chart.series[ 0 ].addPoint( [ new Date( this.xVal ).getTime(), parseFloat( this.yVal ) ], true );
       }
 
-      _computeOrientation() {
+      _computeOrientation () {
         return this.smallScreen ? 'vertical' : 'horizontal';
       }
 

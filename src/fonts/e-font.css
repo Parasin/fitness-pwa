@@ -1,0 +1,27 @@
+@font-face {
+  font-family: "Hilda-Light";
+  src: url("../fonts/HildaMono02-Light.woff") format( "woff" ), url("../fonts/HildaMono02-Light.ttf") format( "ttf" );
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "edsfont";
+  src: url("../fonts/edsfont.woff") format( "woff" ), url("../fonts/edsfont.ttf") format( "ttf" ), url("../fonts/edsfont.eot") format( "eot" );
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Ericsson-Hilda-Light";
+  src: url("../fonts/EricssonHilda-Light.woff2") format( "woff2" );
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Ericsson-Hilda-Bold";
+  src: url("../fonts/EricssonHilda-Bold.woff2") format( "woff2" );
+  font-weight: bold;
+  font-style: normal;
+}

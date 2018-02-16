@@ -1,0 +1,69 @@
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="e-font">
+  <template>
+    <style is="custom-style">
+      @font-face {
+        font-family: "Hilda-Light";
+        src: url("HildaMono02-Light.woff") format( "woff" ), url("HildaMono02-Light.ttf") format( "ttf" );
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "edsfont";
+        src: url("edsfont.woff") format( "woff" ), url("edsfont.ttf") format( "ttf" ), url("edsfont.eot") format( "eot" );
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Ericsson-Hilda-Light";
+        src: url("EricssonHilda-Light.woff2") format( "woff2" );
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Ericsson-Hilda-Bold";
+        src: url("EricssonHilda-Bold.woff2") format( "woff2" );
+        font-weight: bold;
+        font-style: normal;
+      }
+
+      :root {
+        font-family: edsfont;
+        --paper-font-common-base: {
+          font-family: edsfont;
+          -webkit-font-smoothing: antialiased;
+        };
+        --paper-font-common-code: {
+          font-family: edsfont;
+          -webkit-font-smoothing: antialiased;
+        };
+      }
+    </style>
+  </template>
+
+  <script>
+    class EFont extends Polymer.Element {
+      static get is () {
+        return 'e-font';
+      }
+
+      static get properties () {
+        return {};
+      }
+
+      static get observers () {
+        return [];
+      }
+
+      ready () {
+        super.ready();
+      }
+    }
+
+    window.customElements.define( EFont.is, EFont );
+  </script>
+</dom-module>
