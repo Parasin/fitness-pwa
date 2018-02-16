@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
@@ -7,6 +8,9 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
 
@@ -24,8 +28,34 @@
         margin      : 0;
       }
 
+      *::-webkit-scrollbar {
+        width      : 8px;
+        height     : 8px;
+        background : transparent;
+      }
+
+      *::-webkit-scrollbar-corner {
+        background : transparent;
+      }
+
+      *::-webkit-scrollbar-thumb {
+        background-color : var(--scrollbar, #4e4e4e);
+      }
+
+      p, paper-button, paper-input {
+        --paper-font-subhead : Hilda-Light;
+        font-family          : Hilda-Light;
+      }
+
       .dark {
         @apply --app-dark-theme;
+      }
+
+      #e-text {
+        margin-top    : 14px;
+        padding-right : 4px;
+        max-height    : 200px;
+        overflow-y    : scroll;
       }
 
       #input-group {
@@ -76,6 +106,10 @@
         max-width : 300px;
       }
 
+      paper-toggle-button:hover {
+        cursor : pointer;
+      }
+
       #parent, paper-button, paper-card {
         transition                 : background-color 0.2s, color 0.2s;
         transition-timing-function : ease-out;
@@ -105,8 +139,21 @@
       <div id="input-group">
 
         <div id="chartCard" class="flex stretch">
-          <paper-toggle-button checked="{{ theme }}" style="padding-top: 2em;">Dark/Light theme: {{ theme }}
-          </paper-toggle-button>
+          <div class="flex layout horizontal">
+            <!--<p style="position: relative; top: 18px; margin-right: 8px;"
+               class$="text-[[ _computeTheme(theme) ]]-theme">Light</p>
+            <paper-toggle-button checked="{{ theme }}" style="padding-top: 2em;"></paper-toggle-button>
+            <p style="position: relative; top: 18px;" class$="text-[[ _computeTheme(theme) ]]-theme">Dark</p>-->
+
+            <paper-dropdown-menu label="Select Theme" value="{{ theme }}">
+              <paper-listbox slot="dropdown-content">
+                <paper-item value="light">Light</paper-item>
+                <paper-item value="dark">Dark</paper-item>
+              </paper-listbox>
+            </paper-dropdown-menu>
+          </div>
+
+
 
           <paper-card class$="paper-card-[[ _computeTheme(theme) ]]-theme"
                       elevation="1"
@@ -141,7 +188,42 @@
 
               </div>
               <div class="flex">
-                <p class$="text-[[ _computeTheme(theme) ]]-theme">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                <p id="e-text" class$="text-[[ _computeTheme(theme) ]]-theme">Lorem ipsum dolor sit amet, consectetur
+                  adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                  et dolore magna aliqua. Diam maecenas sed enim ut sem viverra aliquet eget sit. Amet nisl purus in
+                  mollis nunc sed id semper risus. Porttitor leo a diam sollicitudin. Vitae turpis massa sed elementum
+                  tempus egestas. Arcu vitae elementum curabitur vitae nunc sed. A diam maecenas sed enim. Ornare lectus
+                  sit amet est placerat. Enim praesent elementum facilisis leo vel fringilla est ullamcorper. Neque
+                  laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt. Aliquet enim tortor at
+                  auctor. Mi bibendum neque egestas congue quisque egestas diam in. Diam donec adipiscing tristique
+                  risus nec. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus. Nec feugiat nisl
+                  pretium fusce id velit ut. <br/>
+
+
+                  <br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                  labore
+                  et dolore magna aliqua. Diam maecenas sed enim ut sem viverra aliquet eget sit. Amet nisl purus in
+                  mollis nunc sed id semper risus. Porttitor leo a diam sollicitudin. Vitae turpis massa sed elementum
+                  tempus egestas. Arcu vitae elementum curabitur vitae nunc sed. A diam maecenas sed enim. Ornare lectus
+                  sit amet est placerat. Enim praesent elementum facilisis leo vel fringilla est ullamcorper. Neque
+                  laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt. Aliquet enim tortor at
+                  auctor. Mi bibendum neque egestas congue quisque egestas diam in. Diam donec adipiscing tristique
+                  risus nec. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus. Nec feugiat nisl
+                  pretium fusce id velit ut.<br/><br/>
+
+
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                  et dolore magna aliqua. Diam maecenas sed enim ut sem viverra aliquet eget sit. Amet nisl purus in
+                  mollis nunc sed id semper risus. Porttitor leo a diam sollicitudin. Vitae turpis massa sed elementum
+                  tempus egestas. Arcu vitae elementum curabitur vitae nunc sed. A diam maecenas sed enim. Ornare lectus
+                  sit amet est placerat. Enim praesent elementum facilisis leo vel fringilla est ullamcorper. Neque
+                  laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt. Aliquet enim tortor at
+                  auctor. Mi bibendum neque egestas congue quisque egestas diam in. Diam donec adipiscing tristique
+                  risus nec. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus. Nec feugiat nisl
+                  pretium fusce id velit ut. <br/><br/>
+
+
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
                   et dolore magna aliqua. Diam maecenas sed enim ut sem viverra aliquet eget sit. Amet nisl purus in
                   mollis nunc sed id semper risus. Porttitor leo a diam sollicitudin. Vitae turpis massa sed elementum
                   tempus egestas. Arcu vitae elementum curabitur vitae nunc sed. A diam maecenas sed enim. Ornare lectus
@@ -355,7 +437,8 @@
 
           Highcharts.setOptions( this.options );
           this.generateChart();
-          return this.theme ? 'dark' : 'light';
+
+          return this.theme ? this.theme.toLowerCase() : 'light';
         }
       }
 
